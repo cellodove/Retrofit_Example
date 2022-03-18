@@ -3,6 +3,7 @@ package com.cellodove.retrofit_example.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.get
 import androidx.lifecycle.ViewModel
@@ -21,8 +22,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        binding.numberPicker.minValue = 1
-        binding.numberPicker.maxValue = 99
+        binding.numberPicker.minValue = 0
+        binding.numberPicker.maxValue = 100
 
         binding.button.setOnClickListener {
             val number = binding.numberPicker.value.toString()
@@ -42,5 +43,16 @@ class MainActivity : AppCompatActivity() {
                 body.text = apiResponse.body
             }
         }
+        viewModel.serverError.observe(this){ e ->
+            binding.showProgress.visibility = View.GONE
+            binding.apply {
+                userId.text = ""
+                id.text = ""
+                title.text = ""
+                body.text = ""
+            }
+            Toast.makeText(this,"에러가 발생했습니다.\n${e.message}",Toast.LENGTH_SHORT).show()
+        }
+
     }
 }

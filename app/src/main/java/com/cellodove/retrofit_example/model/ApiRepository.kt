@@ -8,7 +8,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object ApiRepository {
-
     private fun getRetrofit() : Retrofit{
         val baseUrl = "https://jsonplaceholder.typicode.com/"
 
