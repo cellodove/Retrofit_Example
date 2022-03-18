@@ -22,8 +22,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.button.setOnClickListener {
+            binding.numberPicker.minValue = 1
+            binding.numberPicker.maxValue = 99
             val number = binding.numberPicker.value.toString()
             viewModel.callApi(number)
+        }
+
+        viewModel()
+    }
+
+    private fun viewModel(){
+        viewModel.apiResponseLiveData.observe(this) { apiResponse ->
+            binding.apply {
+                userId.text = apiResponse.userId.toString()
+                id.text = apiResponse.id.toString()
+                title.text = apiResponse.title
+                body.text = apiResponse.body
+            }
         }
     }
 }
