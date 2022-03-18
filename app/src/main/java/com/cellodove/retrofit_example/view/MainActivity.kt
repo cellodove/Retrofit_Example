@@ -2,6 +2,7 @@ package com.cellodove.retrofit_example.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.view.get
 import androidx.lifecycle.ViewModel
@@ -20,19 +21,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        binding.numberPicker.minValue = 1
+        binding.numberPicker.maxValue = 99
 
         binding.button.setOnClickListener {
-            binding.numberPicker.minValue = 1
-            binding.numberPicker.maxValue = 99
             val number = binding.numberPicker.value.toString()
+            binding.showProgress.visibility = View.VISIBLE
             viewModel.callApi(number)
         }
-
         viewModel()
     }
 
     private fun viewModel(){
         viewModel.apiResponseLiveData.observe(this) { apiResponse ->
+            binding.showProgress.visibility = View.GONE
             binding.apply {
                 userId.text = apiResponse.userId.toString()
                 id.text = apiResponse.id.toString()
